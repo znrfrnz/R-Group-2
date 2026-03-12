@@ -38,10 +38,10 @@ ggplot(DATA, aes(x = Age, y = Credit_amount)) +
   geom_point(aes(color = Risk), alpha = 0.6) +
 
   # Color of points
-  scale_color_manual(values = c("bad" = "plum2", "good" = "mediumorchid")) +
+  scale_color_manual(values = c("bad" = "plum2", "good" = "magenta4")) +
   
   # Smooth regression line
-  geom_smooth(method = "lm", se = FALSE, color = "darkorchid4") +
+  geom_smooth(method = "lm", se = FALSE, color = "blueviolet") +
 
   # Facet by purpose
   facet_wrap(~Purpose) +
