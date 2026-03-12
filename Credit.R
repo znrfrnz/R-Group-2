@@ -2,6 +2,7 @@
 
 #----Load necessary libraries-----
 library(readxl) #to read the excel file
+library(dplyr) # for data manipulation
 library(ggplot2) #to visualize the data
 
 #-----DATA-----
