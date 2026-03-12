@@ -1,3 +1,5 @@
+# Group 2
+
 # Task 1 – Custom Function
 # Create a custom R function (e.g., a function that calculates credit risk metrics or summarizes loan info) and demonstrate its use with examples.
 
