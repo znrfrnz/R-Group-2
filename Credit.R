@@ -32,16 +32,16 @@ attach(DATA)
 
 #-----Task 5 – ggplot2 Visualizations-----
 # Create meaningful visualizations of the German Credit Dataset using ggplot2 only
-ggplot(DATA, aes(x = Age, y = Credit_amount)) + 
+ggplot(DATA, aes(x = Job, y = Credit_amount)) + 
   
   # Points
-  geom_point(aes(color = Risk), alpha = 0.6) +
+  geom_jitter(aes(color = Sex), alpha = 0.6) +
 
   # Color of points
-  scale_color_manual(values = c("bad" = "plum2", "good" = "magenta4")) +
+  scale_color_manual(values = c("male" = "skyblue1", "female" = "hotpink1")) +
   
   # Smooth regression line
-  geom_smooth(method = "lm", se = FALSE, color = "blueviolet") +
+  geom_smooth(method = "lm", se = FALSE, color = "violetred2") +
 
   # Facet by purpose
   facet_wrap(~Purpose) +
@@ -51,10 +51,12 @@ ggplot(DATA, aes(x = Age, y = Credit_amount)) +
   theme(
     plot.title = element_text(face = "bold"),
     strip.text = element_text(face = "bold"),
-    legend.position = "bottom") +
+    legend.position = "bottom",
+    plot.caption = element_text(hjust = 0, face = "italic", color = "darkgrey")) +
   
   # Titles and labels
-  labs(title = "Age vs. Credit Amount",
-       subtitle = "Colored by Risk and Faceted by Purpose",
-       x = "Applicant Age",
-       y = "Credit Amount") 
+  labs(title = "Job Classification vs. Credit Amount",
+       subtitle = "Colored by Sex and Faceted by Purpose",
+       x = "Job Classification",
+       y = "Credit Amount",
+       caption = "Note: 0 = Unskilled & Non-resident | 1 = Unskilled & Resident | 2 = Skilled | 3 = Highly Skilled")
