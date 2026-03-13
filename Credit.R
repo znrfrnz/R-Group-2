@@ -11,9 +11,9 @@ View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
 
-#-----Task 1 – Custom Function-----
+#-----Task 1 – Custom R Function-----
 summarise_credit_segment <- function(df, segment_name = "All Applicants") {
-  # check if column missing then stop
+  # Check if column missing then stop
   required_cols <- c("Risk", "Credit_amount", "Duration")
   missing_cols <- setdiff(required_cols, names(df))
   if (length(missing_cols) > 0) {
@@ -29,7 +29,7 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   median_amount <- round(median(df$Credit_amount, na.rm = TRUE), 2)
   avg_duration <- round(mean(df$Duration, na.rm = TRUE), 1)
 
-  # sumamary
+  # Summary
   cat("\n  Credit Risk Summary –", segment_name, "\n")
   cat(sprintf("  Total applicants  : %d\n", n_total))
   cat(sprintf("  Bad-risk count    : %d\n", n_bad))
@@ -39,7 +39,7 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   cat(sprintf("  Avg loan duration : %.1f months\n", avg_duration))
 
 
-  # named list
+  # Named list
   invisible(list(
     segment       = segment_name,
     n_total       = n_total,
@@ -51,7 +51,7 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   ))
 }
 
-#Demo
+##-----Demo-----
 # show all applicants
 all_metrics <- summarise_credit_segment(DATA, "All Applicants")
 
@@ -149,7 +149,7 @@ barplot(sex_counts,
         main="Number of Borrowers by Gender",
         xlab="Gender",
         ylab="Count",
-        col=c("skyblue","pink"))
+        col=c("pink","skyblue"))
 
 # CREDIT RISK DISTRIBUTION
 risk_counts <- table(DATA$Risk)
@@ -158,7 +158,7 @@ barplot(risk_counts,
         main="Distribution of Credit Risk",
         xlab="Risk Category",
         ylab="Number of Clients",
-        col=c("green","red"))
+        col=c("red","green"))
 
 # AGE VS CREDIT AMOUNT
 plot(DATA$Age,
@@ -199,19 +199,19 @@ barplot(purpose_counts,
 # Create meaningful visualizations of the German Credit Dataset using ggplot2 only
 ggplot(DATA, aes(x = Job, y = Credit_amount)) +
 
-  # Points
+  # Layer 1: Points
   geom_jitter(aes(color = Sex), alpha = 0.6) +
-
-  # Color of points
+  
+  # Layer 2: Color of points
   scale_color_manual(values = c("male" = "skyblue1", "female" = "hotpink1")) +
 
-  # Smooth regression line
+  # Layer 3: Smooth regression line
   geom_smooth(method = "lm", se = FALSE, color = "violetred2") +
 
-  # Facet by purpose
+  # Layer 4: Facet by purpose
   facet_wrap(~Purpose) +
 
-  # Customize theme
+  # Layer 5: Customize theme
   theme_minimal() +
   theme(
     plot.title = element_text(face = "bold"),
@@ -219,7 +219,7 @@ ggplot(DATA, aes(x = Job, y = Credit_amount)) +
     legend.position = "bottom",
     plot.caption = element_text(hjust = 0, face = "italic", color = "darkgrey")) +
 
-  # Titles and labels
+  # Layer 6: Titles and labels
   labs(title = "Job Classification vs. Credit Amount",
        subtitle = "Colored by Sex and Faceted by Purpose",
        x = "Job Classification",
