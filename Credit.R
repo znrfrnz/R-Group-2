@@ -6,7 +6,7 @@ library(dplyr) # for data manipulation
 library(ggplot2) # to visualize the data
 
 #-----DATA-----
-German_Credit_Risk <- read_excel("D:/Personal Projects/R/R-Group-2/German Credit Risk.xlsx") #change this to the local file path mo # nolint
+German_Credit_Risk <- read_excel("C:/Habakkuk/R/R-Group-2/German Credit Risk.xlsx") #change this to the local file path mo # nolint
 View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
@@ -83,8 +83,42 @@ cat("Male bad-risk rate   :", male_metrics$pct_bad, "%\n")
 
 
 #-----Task 2 – Data Structures-----
-# Create and assign all required data structures: a vector, an ordered factor, an unordered factor, a table, and a data frame (using the German Credit Dataset where applicable).
 
+# 1. A vector
+# Extracting the 'Credit_amount' column to create a numeric vector
+credit_vector <- DATA$Credit_amount
+cat("1. Vector created: 'credit_vector' of length", length(credit_vector), "\n")
+
+# 2. An unordered factor
+# The 'Housing' column has categories (rent, own, free) with no specific rank
+housing_unordered <- factor(DATA$Housing)
+cat("2. Unordered Factor created with levels:", paste(levels(housing_unordered), collapse = ", "), "\n")
+
+# 3. An ordered factor
+# The 'Saving_accounts' column has a natural hierarchy, so we define the levels explicitly
+saving_levels <- c("little", "moderate", "quite rich", "rich")
+saving_ordered <- factor(DATA$Saving_accounts, 
+                         levels = saving_levels, 
+                         ordered = TRUE)
+cat("3. Ordered Factor created with levels:", paste(levels(saving_ordered), collapse = " < "), "\n\n")
+
+# 4. A table
+# Creating a 2D frequency table (cross-tabulation) comparing Housing status against Credit Risk
+housing_risk_table <- table(Housing = DATA$Housing, Risk = DATA$Risk)
+cat("4. Table created (Housing vs. Risk):\n")
+print(housing_risk_table)
+cat("\n")
+
+# 5. A data frame
+# Creating a custom, smaller data frame using a subset of the first 5 records
+mini_credit_df <- data.frame(
+  Applicant_Age = DATA$Age[1:5],
+  Loan_Duration = DATA$Duration[1:5],
+  Loan_Amount = DATA$Credit_amount[1:5],
+  Risk_Status = DATA$Risk[1:5]
+)
+cat("5. Data Frame created (Preview of first 5 rows):\n")
+print(mini_credit_df)
 
 
 #-----Task 3 – Data Manipulation with dplyr----
