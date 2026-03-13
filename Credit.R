@@ -128,72 +128,49 @@ print(mini_credit_df)
 #-----Task 4 – Base R Visualizations-----
 # Create meaningful visualizations of the German Credit Dataset using Base R graphics only
 
-# AGE DISTRIBUTION
-hist(DATA$Age,
-     main="Distribution of Borrower Age",
-     xlab="Age",
-     col="lightblue",
-     border="black")
+### Average Age by Savings Category
+avg_age <- tapply(DATA$Age,
+                  DATA$Saving_accounts,
+                  mean)
 
-# CREDIT AMOUNT DISTRIBUTION
-hist(DATA$Credit_amount,
-     main="Distribution of Credit Amount",
-     xlab="Credit Amount",
-     col="lightgreen",
-     border="black")
+barplot(avg_age,
+        col = "skyblue",
+        main = "Average Age by Savings Category",
+        xlab = "Savings Category",
+        ylab = "Average Age")
 
-# GENDER DISTRIBUTION
-sex_counts <- table(DATA$Sex)
+#### Age vs Savings
+DATA$Saving_accounts <- as.factor(DATA$Saving_accounts)
 
-barplot(sex_counts,
-        main="Number of Borrowers by Gender",
-        xlab="Gender",
-        ylab="Count",
-        col=c("skyblue","pink"))
-
-# CREDIT RISK DISTRIBUTION
-risk_counts <- table(DATA$Risk)
-
-barplot(risk_counts,
-        main="Distribution of Credit Risk",
-        xlab="Risk Category",
-        ylab="Number of Clients",
-        col=c("green","red"))
-
-# AGE VS CREDIT AMOUNT
 plot(DATA$Age,
-     DATA$Credit_amount,
-     main="Age vs Credit Amount",
-     xlab="Age",
-     ylab="Credit Amount",
-     pch=19,
-     col="blue")
+     as.numeric(DATA$Saving_accounts),
+     col = ifelse(DATA$Risk == "good", "green", "red"),
+     pch = 19,
+     xlab = "Age",
+     ylab = "Savings Category",
+     main = "Age and Savings vs Credit Risk",
+     yaxt = "n")
 
-# CREDIT AMOUNT BY RISK
-boxplot(Credit_amount ~ Risk,
-        data=DATA,
-        main="Credit Amount by Risk",
-        xlab="Risk",
-        ylab="Credit Amount",
-        col=c("lightgreen","salmon"))
+axis(2,
+     at = 1:length(levels(DATA$Saving_accounts)),
+     labels = levels(DATA$Saving_accounts))
 
-# LOAN DURATION
-hist(DATA$Duration,
-     main="Loan Duration Distribution",
-     xlab="Duration (Months)",
-     col="orange",
-     border="black")
+legend("topright",
+       legend = c("Good Risk", "Bad Risk"),
+       col = c("green","red"),
+       pch = 19)
 
-# PURPOSE DISTRIBUTION
-purpose_counts <- table(DATA$Purpose)
+### Gender vs Credit Risk
+gender_risk <- table(DATA$Sex,
+                     DATA$Risk)
 
-barplot(purpose_counts,
-        main="Loan Purpose Distribution",
-        xlab="Purpose",
-        ylab="Count",
-        col="purple",
-        las=2)
-
+barplot(gender_risk,
+        beside=TRUE,
+        col=c("skyblue","pink"),
+        legend=TRUE,
+        main="Credit Risk by Gender",
+        xlab="Risk Category",
+        ylab="Number of Borrowers")
 
 #-----Task 5 – ggplot2 Visualizations-----
 # Create meaningful visualizations of the German Credit Dataset using ggplot2 only
