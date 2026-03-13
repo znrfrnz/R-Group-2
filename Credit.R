@@ -6,7 +6,7 @@ library(dplyr) # for data manipulation
 library(ggplot2) # to visualize the data
 
 #-----DATA-----
-German_Credit_Risk <- read_excel("c:/Users/Admin/Documents/German Credit Risk.xlsx") #change this to the local file path mo # nolint
+German_Credit_Risk <- read_excel("c:/Users/benid/Downloads/German Credit Risk.xlsx") #change this to the local file path mo # nolint
 View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
@@ -122,7 +122,44 @@ print(mini_credit_df)
 
 
 #-----Task 3 – Data Manipulation with dplyr----
+# Filter: Find high-risk applicants with large credit amounts (> 5000)
+high_risk_large_loans <- DATA %>%
+  filter(Risk == "bad", Credit_amount > 5000)
 
+cat("1. Filtered: Found", nrow(high_risk_large_loans), "bad-risk applicants with loans > 5000.\n")
+
+# Select: Keep only identifying and financial columns
+financial_profile <- DATA %>%
+  select(Age, Sex, Job, Credit_amount, Risk)
+
+cat("2. Selected: Created a profile with", ncol(financial_profile), "specific columns.\n")
+
+# Mutate: Create a new column for 'Loan_to_Age_Ratio' and a flag for 'Senior' applicants (Age > 60)
+DATA <- DATA %>%
+  mutate(
+    Loan_to_Age_Ratio = Credit_amount / Age,
+    Is_Senior = ifelse(Age > 60, "Yes", "No")
+  )
+
+cat("3. Mutated: Added 'Loan_to_Age_Ratio' and 'Is_Senior' flag.\n")
+
+# Arrange: Sort data by Credit Amount (Descending) to see highest loans first
+sorted_data <- DATA %>%
+  arrange(desc(Credit_amount))
+
+cat("4. Arranged: Highest loan amount is", sorted_data$Credit_amount[1], "\n")
+
+# Group & Summarize: Analyze average risk and loan amount by Housing status
+housing_analysis <- DATA %>%
+  group_by(Housing) %>%
+  summarize(
+    Avg_Loan = mean(Credit_amount),
+    Median_Age = median(Age),
+    Total_Count = n()
+  )
+
+cat("5. Summarized Analysis by Housing:\n")
+print(housing_analysis)
 
 
 #-----Task 4 – Base R Visualizations-----
