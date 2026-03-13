@@ -128,6 +128,71 @@ print(mini_credit_df)
 #-----Task 4 – Base R Visualizations-----
 # Create meaningful visualizations of the German Credit Dataset using Base R graphics only
 
+# AGE DISTRIBUTION
+hist(DATA$Age,
+     main="Distribution of Borrower Age",
+     xlab="Age",
+     col="lightblue",
+     border="black")
+
+# CREDIT AMOUNT DISTRIBUTION
+hist(DATA$Credit_amount,
+     main="Distribution of Credit Amount",
+     xlab="Credit Amount",
+     col="lightgreen",
+     border="black")
+
+# GENDER DISTRIBUTION
+sex_counts <- table(DATA$Sex)
+
+barplot(sex_counts,
+        main="Number of Borrowers by Gender",
+        xlab="Gender",
+        ylab="Count",
+        col=c("skyblue","pink"))
+
+# CREDIT RISK DISTRIBUTION
+risk_counts <- table(DATA$Risk)
+
+barplot(risk_counts,
+        main="Distribution of Credit Risk",
+        xlab="Risk Category",
+        ylab="Number of Clients",
+        col=c("green","red"))
+
+# AGE VS CREDIT AMOUNT
+plot(DATA$Age,
+     DATA$Credit_amount,
+     main="Age vs Credit Amount",
+     xlab="Age",
+     ylab="Credit Amount",
+     pch=19,
+     col="blue")
+
+# CREDIT AMOUNT BY RISK
+boxplot(Credit_amount ~ Risk,
+        data=DATA,
+        main="Credit Amount by Risk",
+        xlab="Risk",
+        ylab="Credit Amount",
+        col=c("lightgreen","salmon"))
+
+# LOAN DURATION
+hist(DATA$Duration,
+     main="Loan Duration Distribution",
+     xlab="Duration (Months)",
+     col="orange",
+     border="black")
+
+# PURPOSE DISTRIBUTION
+purpose_counts <- table(DATA$Purpose)
+
+barplot(purpose_counts,
+        main="Loan Purpose Distribution",
+        xlab="Purpose",
+        ylab="Count",
+        col="purple",
+        las=2)
 
 
 #-----Task 5 – ggplot2 Visualizations-----
