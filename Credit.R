@@ -6,7 +6,7 @@ library(dplyr) # for data manipulation
 library(ggplot2) # to visualize the data
 
 #-----DATA-----
-German_Credit_Risk <- read_excel("C:/Habakkuk/R/R-Group-2/German Credit Risk.xlsx") #change this to the local file path mo # nolint
+German_Credit_Risk <- read_excel("German Credit Risk.xlsx") #change this to the local file path mo # nolint
 View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
