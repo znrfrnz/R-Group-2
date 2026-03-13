@@ -12,24 +12,54 @@ DATA <- German_Credit_Risk
 attach(DATA)
 
 #-----Task 1 – Custom Function-----
+# summarise_credit_segment
+# Purpose:
+#   Produce a compact summary of credit applicants for a given data frame
+#   segment (or for the whole dataset). The function prints a human-readable
+#   summary to the console and returns an invisible named list of metrics for
+#   programmatic use.
+#
+# Arguments:
+#   df           - a data frame containing at least the columns:
+#                    * "Risk" (e.g. "good" / "bad"),
+#                    * "Credit_amount" (numeric loan amount),
+#                    * "Duration" (numeric loan duration in months).
+#                  The function will stop with an informative error if any of
+#                  these columns are missing or if the data frame has zero rows.
+#   segment_name - optional character string used as the printed segment label.
+#
+# Behaviour / Notes:
+#   - Rows with NA in the measured columns are handled via na.rm = TRUE where
+#     appropriate (so metrics ignore missing numeric values).
+#   - The printed output is intended for quick inspection; the returned list
+#     (invisibly) contains the same values for further processing.
+#   - Percentage values are rounded to one decimal place; monetary amounts are
+#     rounded to two decimal places.
+#
+# Returns:
+#   Invisibly returns a named list with elements:
+#     * segment, n_total, n_bad, pct_bad, avg_amount, median_amount, avg_duration
+#
 summarise_credit_segment <- function(df, segment_name = "All Applicants") {
-  # check if column missing then stop
+  # Validate required columns; abort early with a clear message if missing.
   required_cols <- c("Risk", "Credit_amount", "Duration")
   missing_cols <- setdiff(required_cols, names(df))
   if (length(missing_cols) > 0) {
     stop(paste("Missing required columns:", paste(missing_cols, collapse = ", "))) # nolint: line_length_linter.
   }
+  # Ensure there's at least one row to summarise.
   if (nrow(df) == 0) stop("Data frame is empty – nothing to summarise.")
 
   # Compute metrics
   n_total <- nrow(df)
+  # Count rows explicitly labelled as "bad" (tolerant to NA values).
   n_bad <- sum(df$Risk == "bad", na.rm = TRUE)
   pct_bad <- round(n_bad / n_total * 100, 1)
   avg_amount <- round(mean(df$Credit_amount, na.rm = TRUE), 2)
   median_amount <- round(median(df$Credit_amount, na.rm = TRUE), 2)
   avg_duration <- round(mean(df$Duration, na.rm = TRUE), 1)
 
-  # sumamary
+  # Printed summary (readable for quick inspection)
   cat("\n  Credit Risk Summary –", segment_name, "\n")
   cat(sprintf("  Total applicants  : %d\n", n_total))
   cat(sprintf("  Bad-risk count    : %d\n", n_bad))
@@ -39,7 +69,7 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   cat(sprintf("  Avg loan duration : %.1f months\n", avg_duration))
 
 
-  # named list
+  # Programmatic return value (invisible) for downstream analysis
   invisible(list(
     segment       = segment_name,
     n_total       = n_total,
@@ -97,8 +127,8 @@ cat("2. Unordered Factor created with levels:", paste(levels(housing_unordered),
 # 3. An ordered factor
 # The 'Saving_accounts' column has a natural hierarchy, so we define the levels explicitly
 saving_levels <- c("little", "moderate", "quite rich", "rich")
-saving_ordered <- factor(DATA$Saving_accounts, 
-                         levels = saving_levels, 
+saving_ordered <- factor(DATA$Saving_accounts,
+                         levels = saving_levels,
                          ordered = TRUE)
 cat("3. Ordered Factor created with levels:", paste(levels(saving_ordered), collapse = " < "), "\n\n")
 
