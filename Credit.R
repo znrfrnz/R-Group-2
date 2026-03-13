@@ -127,6 +127,7 @@ print(mini_credit_df)
 
 #-----Task 4 – Base R Visualizations-----
 # Create meaningful visualizations of the German Credit Dataset using Base R graphics only
+# Create meaningful visualizations of the German Credit Dataset using Base R graphics only
 
 ### Average Age by Savings Category
 avg_age <- tapply(DATA$Age,
@@ -141,6 +142,24 @@ barplot(avg_age,
 
 #### Age vs Savings
 DATA$Saving_accounts <- as.factor(DATA$Saving_accounts)
+
+
+barplot(sex_counts,
+        main="Number of Borrowers by Gender",
+        xlab="Gender",
+        ylab="Count",
+        col=c("pink","skyblue"))
+
+# CREDIT RISK DISTRIBUTION
+risk_counts <- table(DATA$Risk)
+
+barplot(risk_counts,
+        main="Distribution of Credit Risk",
+        xlab="Risk Category",
+        ylab="Number of Clients",
+        col=c("red","green"))
+
+# AGE VS CREDIT AMOUNT
 
 plot(DATA$Age,
      as.numeric(DATA$Saving_accounts),
