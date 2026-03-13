@@ -34,8 +34,8 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   cat(sprintf("  Total applicants  : %d\n", n_total))
   cat(sprintf("  Bad-risk count    : %d\n", n_bad))
   cat(sprintf("  Bad-risk rate     : %.1f%%\n", pct_bad))
-  cat(sprintf("  Avg loan amount   : DM %.2f\n", avg_amount))
-  cat(sprintf("  Median loan amount: DM %.2f\n", median_amount))
+  cat(sprintf("  Avg loan amount   : %.2f\n", avg_amount))
+  cat(sprintf("  Median loan amount: %.2f\n", median_amount))
   cat(sprintf("  Avg loan duration : %.1f months\n", avg_duration))
 
 
@@ -61,16 +61,24 @@ female_metrics <- summarise_credit_segment(
   segment_name = "Female Applicants"
 )
 
+# male
+male_metrics <- summarise_credit_segment(
+  df           = DATA[DATA$Sex == "male", ],
+  segment_name = "Male Applicants"
+)
+
 # no checking account
 no_checking_metrics <- summarise_credit_segment(
   df           = DATA[is.na(DATA$Checking_account) |
-                               DATA$Checking_account == "NA", ],
+                        DATA$Checking_account == "NA", ],
   segment_name = "No Checking Account"
 )
 
+cat("\n")
 # check metrics
 cat("Overall bad-risk rate:", all_metrics$pct_bad, "%\n")
 cat("Female bad-risk rate :", female_metrics$pct_bad, "%\n")
+cat("Male bad-risk rate   :", male_metrics$pct_bad, "%\n")
 
 
 
