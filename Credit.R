@@ -6,7 +6,7 @@ library(dplyr) # for data manipulation
 library(ggplot2) # to visualize the data
 
 #-----DATA-----
-German_Credit_Risk <- read_excel("D:/Personal Projects/R/R-Group-2/German Credit Risk.xlsx")
+German_Credit_Risk <- read_excel("D:/Personal Projects/R/R-Group-2/German Credit Risk.xlsx") #change this to the local file path mo # nolint
 View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
@@ -17,7 +17,7 @@ summarise_credit_segment <- function(df, segment_name = "All Applicants") {
   required_cols <- c("Risk", "Credit_amount", "Duration")
   missing_cols <- setdiff(required_cols, names(df))
   if (length(missing_cols) > 0) {
-    stop(paste("Missing required columns:", paste(missing_cols, collapse = ", ")))
+    stop(paste("Missing required columns:", paste(missing_cols, collapse = ", "))) # nolint: line_length_linter.
   }
   if (nrow(df) == 0) stop("Data frame is empty – nothing to summarise.")
 
