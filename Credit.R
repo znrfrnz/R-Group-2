@@ -175,7 +175,10 @@ par(mfrow = c(1, 2))
 ##----Risk vs. Housing for Males----
 
 # Create subset of the data for only male
-males <- subset(DATA, Sex == "male")    
+males <- subset(DATA, Sex == "male")  
+
+# Number of Male
+counts_m <- table(males$Risk, males$Housing)
 
 # Create the bar graph for males
 barplot(table(males$Risk, males$Housing),
@@ -193,6 +196,9 @@ legend("topright", legend = rownames(counts_m), fill = c("tomato", "seagreen1"))
 # Create subset of the data for only female
 females <- subset(German_Credit_Risk, Sex == "female")
 
+# Number of Female
+counts_f <- table(females$Risk, females$Housing)
+
 # Create the bar graph for females
 barplot(table(females$Risk, females$Housing), 
         main = "Risk vs. Housing (Females)", 
@@ -202,7 +208,7 @@ barplot(table(females$Risk, females$Housing),
         beside = TRUE)
 
 # Legend for Females
-legend("topright", legend = rownames(counts_m), fill = c("tomato", "seagreen1"))
+legend("topright", legend = rownames(counts_f), fill = c("tomato", "seagreen1"))
 
 # Revert layout into 1x1 space
 par(mfrow = c(1, 1))
