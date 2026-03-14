@@ -7,7 +7,7 @@ library(ggplot2) # to visualize the data
 
 
 #-----Data-----
-German_Credit_Risk <- read_excel("c:/Users/Admin/Documents/German Credit Risk.xlsx") # change this to the local file path mo # nolint
+German_Credit_Risk <- read_excel("c:/Users/Admin/Documents/German Credit Risk.xlsx") # Change this to the local file path # nolint
 View(German_Credit_Risk)
 DATA <- German_Credit_Risk
 attach(DATA)
@@ -83,7 +83,6 @@ cat("Female bad-risk rate :", female_metrics$pct_bad, "%\n")
 cat("Male bad-risk rate   :", male_metrics$pct_bad, "%\n")
 
 
-
 #-----Task 2 – Data Structures-----
 ##----1. A vector----
 # Extracting the 'Credit_amount' column to create a numeric vector
@@ -123,15 +122,20 @@ print(mini_credit_df)
 
 
 #-----Task 3 – Data Manipulation with dplyr----
+
 # Filter: Find high-risk applicants with large credit amounts (> 5000)
 high_risk_large_loans <- DATA %>%
   filter(Risk == "bad", Credit_amount > 5000)
 cat("1. Filtered: Found", nrow(high_risk_large_loans), "bad-risk applicants with loans > 5000.\n")
 
+View(high_risk_large_loans) # to view the filtered data
+
 # Select: Keep only identifying and financial columns
 financial_profile <- DATA %>%
   select(Age, Sex, Job, Credit_amount, Risk)
 cat("2. Selected: Created a profile with", ncol(financial_profile), "specific columns.\n")
+
+View(financial_profile) # to view with only the financial profile
 
 # Mutate: Create a new column for 'Loan_to_Age_Ratio' and a flag for 'Senior' applicants (Age > 60)
 DATA <- DATA %>%
@@ -141,10 +145,14 @@ DATA <- DATA %>%
   )
 cat("3. Mutated: Added 'Loan_to_Age_Ratio' and 'Is_Senior' flag.\n")
 
+View(DATA) # see that the new columns are added
+
 # Arrange: Sort data by Credit Amount (Descending) to see highest loans first
 sorted_data <- DATA %>%
   arrange(desc(Credit_amount))
 cat("4. Arranged: Highest loan amount is", sorted_data$Credit_amount[1], "\n")
+
+View(sorted_data) # to view the highest credit loans first
 
 # Group & Summarize: Analyze average risk and loan amount by Housing status
 housing_analysis <- DATA %>%
@@ -155,7 +163,7 @@ housing_analysis <- DATA %>%
     Total_Count = n()
   )
 cat("5. Summarized Analysis by Housing:\n")
-print(housing_analysis)
+print(housing_analysis) # to print the housing analysis to console
 
 
 #-----Task 4 – Base R Visualizations-----
@@ -164,25 +172,35 @@ print(housing_analysis)
 # Puts the charts side by side by making them 1 row, 2 columns
 par(mfrow = c(1, 2))
 
-# Risk vs. Housing for Males
-males <- subset(DATA, Sex == "male")       
+##----Risk vs. Housing for Males----
+
+# Create subset of the data for only male
+males <- subset(DATA, Sex == "male")    
+
+# Create the bar graph for males
 barplot(table(males$Risk, males$Housing),
-        main = "Risk vs Housing (Males)", 
+        main = "Risk vs. Housing (Males)", 
         col = c("tomato", "seagreen1"),
         xlab = "Housing",
         ylab = "Number of Borrowers",
         beside = TRUE)
+
 # Legend for Males
 legend("topright", legend = rownames(counts_m), fill = c("tomato", "seagreen1"))
 
-# Risk vs. Housing for Females
+##-----Risk vs. Housing for Females----
+
+# Create subset of the data for only female
 females <- subset(German_Credit_Risk, Sex == "female")
+
+# Create the bar graph for females
 barplot(table(females$Risk, females$Housing), 
-        main = "Risk vs Housing (Females)", 
+        main = "Risk vs. Housing (Females)", 
         col = c("tomato", "seagreen1"),
         xlab = "Housing",
         ylab = "Number of Borrowers",
         beside = TRUE)
+
 # Legend for Females
 legend("topright", legend = rownames(counts_m), fill = c("tomato", "seagreen1"))
 
@@ -213,7 +231,7 @@ ggplot(DATA, aes(x = Job, y = Credit_amount)) +
        y = "Credit Amount",
        caption = "Note: 0 = Unskilled & Non-resident | 1 = Unskilled & Resident | 2 = Skilled | 3 = Highly Skilled") +
  
-   # Layer 6: Customize theme
+  # Layer 6: Customize theme
   theme_minimal() +
   theme(
     plot.title = element_text(face = "bold"),
