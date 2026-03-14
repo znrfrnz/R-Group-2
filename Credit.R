@@ -213,7 +213,7 @@ ggplot(DATA, aes(x = Job, y = Credit_amount)) +
        y = "Credit Amount",
        caption = "Note: 0 = Unskilled & Non-resident | 1 = Unskilled & Resident | 2 = Skilled | 3 = Highly Skilled") +
  
-   # Layer 6: Customize theme
+  # Layer 6: Customize theme
   theme_minimal() +
   theme(
     plot.title = element_text(face = "bold"),
